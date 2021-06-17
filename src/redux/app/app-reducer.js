@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { createReducer } from "@reduxjs/toolkit";
 import actions from "./app-actions";
-// import operations from "./app-operations";
+import operations from "./app-operations";
 
 const contacts = createReducer([], {
   [actions.fetchContactSuccess]: (_, { payload }) => payload,
@@ -12,7 +12,16 @@ const contacts = createReducer([], {
       alert(`${payload.name} - уже есть в списке :)`);
       return state;
     }
-    return [payload, ...state];
+    return [...state, payload];
+  },
+  [operations.addContact]: (state, { type, payload }) => {
+    let nameArray = state.map((cur) => cur.name);
+    if (!nameArray.includes(payload.name)) {
+      return [...state, payload];
+    } else {
+      alert(`${payload.name} - уже есть в списке :)`);
+      return state;
+    }
   },
   [actions.deleteContactSuccess]: (state, { types, payload }) => {
     let newArrAfterDel = state.filter((elem) => elem.id !== payload);
