@@ -3,17 +3,20 @@ import { createReducer } from "@reduxjs/toolkit";
 import actions from "./app-actions";
 import operations from "./app-operations";
 
+
+
 const contacts = createReducer([], {
   [actions.fetchContactSuccess]: (_, { payload }) => payload,
-  [actions.addContactSuccess]: (state, { payload }) => {
-    const contactExists = state.find(contact => contact.name === payload.name);
+  [actions.addContactSuccess]: (state, { payload }) => [...state, payload],
+  // [actions.addContactSuccess]: (state, { payload }) => {
+  //   const contactExists = state.find(contact => contact.name === payload.name);
 
-    if (contactExists) {
-      alert(`${payload.name} - уже есть в списке :)`);
-      return state;
-    }
-    return [...state, payload];
-  },
+  //   if (contactExists) {
+  //     alert(`${payload.name} - уже есть в списке :)`);
+  //     return state;
+  //   }
+  //   return [...state, payload];
+  // },
   [operations.addContact]: (state, { type, payload }) => {
     let nameArray = state.map((cur) => cur.name);
     if (!nameArray.includes(payload.name)) {
